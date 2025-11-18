@@ -2,58 +2,51 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
 
-## Development server
+## Harmony Music Frontend
 
-To start a local development server, run:
+This app implements a Spotify-like UI using the "Ocean Professional" theme:
+- Sidebar navigation (Home, Search, Your Library)
+- Top bar with search input and user actions
+- Main content area for feature pages
+- Persistent bottom player bar
 
-```bash
-ng serve
-```
+### Environment variables and API selection
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The app reads NG_APP_* variables (when exposed on `window`) to determine backend availability:
+- NG_APP_API_BASE
+- NG_APP_BACKEND_URL
+- NG_APP_WS_URL
+- NG_APP_NODE_ENV
+- NG_APP_FEATURE_FLAGS
+- NG_APP_EXPERIMENTS_ENABLED
 
-## Code scaffolding
+If NG_APP_API_BASE and NG_APP_BACKEND_URL are both missing, the app automatically uses a MockApiService with sample data.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+To switch to real APIs in the future, set either:
+- NG_APP_API_BASE, or
+- NG_APP_BACKEND_URL
 
-```bash
-ng generate component component-name
-```
+and implement a real ApiService (then update `provideApiService(false)` in app.component providers to point to the real implementation).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Running locally
 
 ```bash
-ng test
+npm install
+npm run start
+# App serves on http://localhost:3000 (see angular.json serve options)
 ```
 
-## Running end-to-end tests
+### Accessibility
 
-For end-to-end (e2e) testing, run:
+Controls include aria-labels, focus rings, and keyboard support:
+- Enter on track rows plays a track
+- Player provides aria labels for seek/volume/mute
 
-```bash
-ng e2e
-```
+### Project structure
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- src/app/core: environment, theme, audio, API services, playback state
+- src/app/shared: reusable UI components (sidebar, topbar, grid, track list, player)
+- src/app/features: feature pages (home, search, library, playlist)
+- CSS variables define theme colors and spacing
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For more Angular CLI information, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
